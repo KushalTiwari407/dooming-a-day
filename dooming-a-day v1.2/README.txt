@@ -1,4 +1,4 @@
-Dooming a Day - Chrome Extension (Phase 2)
+Dooming a Day - Browser Extension v-1.2
 =========================================
 
 Tracked Platforms:
