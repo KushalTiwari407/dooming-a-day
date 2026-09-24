@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Dooming a Day - Doomscroll Tracker",
+  "version": "1.0.0",
+  "description": "Clean, local-first doomscroll tracker for YouTube Shorts. Detects short-form videos and displays daily stats.",
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "tabs",
+    "notifications"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.instagram.com/*",
+    "*://*.tiktok.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Dooming a Day",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

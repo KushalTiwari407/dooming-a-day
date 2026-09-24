@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="module" src="/@vite/client"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dooming a Day</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      width: 320px;
+      min-width: 320px;
+      max-width: 320px;
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-size: 13px;
+      user-select: none;
+      overflow-x: hidden;
+      margin: 0 auto;
+    }
+
+    .popup-container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .popup-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.4);
+      display: block;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .version-badge {
+      font-size: 10px;
+      background: #1e293b;
+      color: #38bdf8;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-weight: 700;
+      border: 1px solid #334155;
+    }
+
+    /* Main Counter Card */
+    .main-counter-card {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      border: 1px solid #3730a3;
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-counter-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 40px;
+      background: radial-gradient(ellipse at center, rgba(244, 63, 94, 0.35), transparent 70%);
+      pointer-events: none;
+    }
+
+    .counter-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #c7d2fe;
+      font-weight: 700;
+    }
+
+    .counter-value {
+      font-size: 44px;
+      font-weight: 800;
+      color: #f43f5e;
+      line-height: 1.1;
+      margin: 2px 0;
+      text-shadow: 0 2px 10px rgba(244, 63, 94, 0.45);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-unit {
+      font-size: 11px;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* Brainrot Rank Badge */
+    .brainrot-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      background: #312e81;
+      color: #e0e7ff;
+      border: 1px solid #4f46e5;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.2px;
+    }
+
+    /* Breakdown Card */
+    .breakdown-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .platform-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .platform-name {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .platform-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .platform-dot.yt { background-color: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+    .platform-dot.ig { background-color: #ec4899; box-shadow: 0 0 6px rgba(236, 72, 153, 0.6); }
+    .platform-dot.tt { background-color: #06b6d4; box-shadow: 0 0 6px rgba(6, 182, 212, 0.6); }
+
+    .platform-count {
+      font-weight: 700;
+      color: #f1f5f9;
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .session-divider {
+      height: 1px;
+      background-color: #334155;
+      margin: 2px 0;
+    }
+
+    .session-row {
+      color: #38bdf8;
+    }
+
+    .session-label {
+      font-weight: 600;
+      font-size: 12px;
+      color: #7dd3fc;
+    }
+
+    .session-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      text-align: center;
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+      color: #ffffff;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+    }
+
+    /* Settings Box */
+    .settings-box {
+      background: #131d31;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-label {
+      font-size: 11px;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+
+    .toggle-row input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: #e11d48;
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #64748b;
+      padding-top: 2px;
+    }
+
+    .status-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      flex-shrink: 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+<script src="/_aistudio-iframe.js?v=2c34bde1"></script></head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <img src="../icons/icon48.png" alt="Dooming a Day" class="popup-icon" />
+        <div>
+          <h1 class="title">Dooming a Day</h1>
+          <p class="subtitle">Doomscroll Tracker</p>
+        </div>
+      </div>
+      <span class="version-badge">v1.2</span>
+    </header>
+
+    <!-- Main Counter Card -->
+    <section class="main-counter-card">
+      <span class="counter-label">Today's Doom</span>
+      <div class="counter-value" id="today-total">0</div>
+      <span class="counter-unit">videos viewed</span>
+      <div class="brainrot-badge" id="brainrot-rank">🌱 Clean Mind</div>
+    </section>
+
+    <!-- Platform Breakdown -->
+    <section class="breakdown-card">
+      <div class="platform-row">
+        <span class="platform-name">
+          <span class="platform-dot yt"></span> YouTube Shorts
+        </span>
+        <span class="platform-count" id="count-youtube">0</span>
+      </div>
+
+      <div class="platform-row">
+        <span class="platform-name">
+          <span class="platform-dot ig"></span> Instagram Reels
+        </span>
+        <span class="platform-count" id="count-instagram">0</span>
+      </div>
+
+      <div class="platform-row">
+        <span class="platform-name">
+          <span class="platform-dot tt"></span> TikTok Videos
+        </span>
+        <span class="platform-count" id="count-tiktok">0</span>
+      </div>
+
+      <div class="session-divider"></div>
+
+      <div class="platform-row session-row">
+        <span class="session-label">Current Session</span>
+        <span class="session-count" id="session-total">0</span>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="button-group">
+      <button id="btn-reset" class="btn btn-secondary">
+        Reset Today
+      </button>
+      <button id="btn-test-short" class="btn btn-primary">
+        + Test Video
+      </button>
+    </div>
+
+    <!-- Settings Toggle -->
+    <section class="settings-box">
+      <div class="toggle-row">
+        <label for="toggle-notifications" class="toggle-label">
+          Slang Alerts (every 10)
+        </label>
+        <input type="checkbox" id="toggle-notifications" checked />
+      </div>
+      <div class="toggle-row">
+        <label for="toggle-dedup" class="toggle-label">
+          Deduplicate same day
+        </label>
+        <input type="checkbox" id="toggle-dedup" checked />
+      </div>
+    </section>
+
+    <!-- Footer Status -->
+    <footer class="footer">
+      <span class="status-indicator"></span>
+      <span id="status-text">Ready & listening for videos...</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
